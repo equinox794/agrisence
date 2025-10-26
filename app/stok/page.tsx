@@ -207,9 +207,86 @@ export default function StokPage() {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="rounded-lg border border-[var(--border)] bg-[var(--card-background)] overflow-hidden overflow-x-auto">
-        <table className="w-full text-xs min-w-[800px]">
+      {/* Mobile Cards - Hidden on Desktop */}
+      <div className="lg:hidden space-y-3">
+        {loading ? (
+          <div className="text-center py-8 text-[var(--secondary-text)] text-sm">
+            {t('common.loading')}
+          </div>
+        ) : stocks.length === 0 ? (
+          <div className="text-center py-8 text-[var(--secondary-text)] text-sm">
+            {t('stock.noData')}
+          </div>
+        ) : (
+          stocks.map((stock, index) => {
+            const isLowStock = stock.quantity < stock.min_quantity;
+            const totalPrice = stock.quantity * stock.price;
+            
+            return (
+              <div key={stock.id} className="bg-[var(--card-background)] border border-[var(--border)] rounded-lg p-4">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-[var(--primary-text)] mb-1">{stock.name}</h3>
+                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                      stock.category === 'hammadde' 
+                        ? 'bg-blue-500/10 text-blue-400' 
+                        : 'bg-purple-500/10 text-purple-400'
+                    }`}>
+                      <span className="material-symbols-outlined text-xs">
+                        {stock.category === 'hammadde' ? 'science' : 'package'}
+                      </span>
+                      {stock.category === 'hammadde' ? t('stock.filterHammadde') : t('stock.filterAmbalaj')}
+                    </span>
+                  </div>
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() => handleEdit(stock)}
+                      className="p-2 rounded-md bg-[var(--primary-green)]/10 text-[var(--primary-green)] hover:bg-[var(--primary-green)]/20"
+                    >
+                      <span className="material-symbols-outlined text-lg">edit</span>
+                    </button>
+                    <button
+                      onClick={() => handleDelete(stock.id)}
+                      className="p-2 rounded-md bg-[var(--error)]/10 text-[var(--error)] hover:bg-[var(--error)]/20"
+                    >
+                      <span className="material-symbols-outlined text-lg">delete</span>
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <span className="text-[var(--secondary-text)]">{t('stock.quantity')}: </span>
+                    <span className="text-[var(--primary-text)] font-medium">{stock.quantity} {stock.unit}</span>
+                  </div>
+                  <div>
+                    <span className="text-[var(--secondary-text)]">{t('stock.price')}: </span>
+                    <span className="text-[var(--primary-text)] font-medium">{stock.price} {stock.currency}</span>
+                  </div>
+                  <div>
+                    <span className="text-[var(--secondary-text)]">{t('stock.minQuantity')}: </span>
+                    <span className="text-[var(--primary-text)] font-medium">{stock.min_quantity}</span>
+                    {isLowStock && (
+                      <span className="ml-1 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs font-bold bg-[var(--error)] text-white">
+                        <span className="material-symbols-outlined text-xs">error</span>
+                        {t('stock.lowStock')}
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <span className="text-[var(--secondary-text)]">{t('stock.totalTL')}: </span>
+                    <span className="text-[var(--primary-text)] font-medium">{totalPrice.toFixed(2)} TL</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* Desktop Table - Hidden on Mobile */}
+      <div className="hidden lg:block rounded-lg border border-[var(--border)] bg-[var(--card-background)] overflow-hidden overflow-x-auto">
+        <table className="w-full text-xs">
           <thead className="bg-[#1c2127] border-b border-[var(--border)]">
             <tr>
               <th className="px-4 py-3 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.id')}</th>
