@@ -283,17 +283,17 @@ export default function StokPage() {
                       {totalPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center justify-center gap-2">
                         <button
                           onClick={() => handleEdit(stock)}
-                          className="p-1.5 rounded-md text-[var(--primary-green)] hover:bg-[var(--primary-green)]/10 transition-colors"
+                          className="p-2 rounded-md bg-[var(--primary-green)]/10 text-[var(--primary-green)] hover:bg-[var(--primary-green)]/20 transition-colors"
                           title={t('stock.edit')}
                         >
                           <span className="material-symbols-outlined text-lg">edit</span>
                         </button>
                         <button
                           onClick={() => handleDelete(stock.id)}
-                          className="p-1.5 rounded-md text-[var(--error)] hover:bg-[var(--error)]/10 transition-colors"
+                          className="p-2 rounded-md bg-[var(--error)]/10 text-[var(--error)] hover:bg-[var(--error)]/20 transition-colors"
                           title={t('stock.delete')}
                         >
                           <span className="material-symbols-outlined text-lg">delete</span>
