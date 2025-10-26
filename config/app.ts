@@ -1,7 +1,7 @@
 // Merkezi Uygulama Ayarları
 export const appConfig = {
-  name: 'Bioplant CRM',
-  shortName: 'BCRM',
+  name: 'AgriSence',
+  shortName: 'AS',
   version: '1.0.0',
   languages: [
     { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },

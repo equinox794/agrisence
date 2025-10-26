@@ -9,37 +9,37 @@ export interface NavigationItem {
 
 export const navigationItems: NavigationItem[] = [
   {
-    id: 'dashboard',
-    icon: 'dashboard',
-    route: '/',
+    id: 'stock',
+    icon: 'warehouse',
+    route: '/stok',
     order: 1,
     enabled: true,
   },
   {
-    id: 'stock',
-    icon: 'inventory',
-    route: '/stok',
-    order: 2,
-    enabled: true,
-  },
-  {
-    id: 'customer',
-    icon: 'people',
-    route: '/cari',
-    order: 3,
-    enabled: false, // İleride aktif edilecek
-  },
-  {
     id: 'recipe',
-    icon: 'science',
+    icon: 'receipt_long',
     route: '/recete',
+    order: 2,
+    enabled: false,
+  },
+  {
+    id: 'production',
+    icon: 'factory',
+    route: '/uretim',
+    order: 3,
+    enabled: false,
+  },
+  {
+    id: 'movements',
+    icon: 'local_shipping',
+    route: '/hareketler',
     order: 4,
     enabled: false,
   },
   {
-    id: 'order',
-    icon: 'shopping_cart',
-    route: '/siparis',
+    id: 'reports',
+    icon: 'leaderboard',
+    route: '/raporlar',
     order: 5,
     enabled: false,
   },

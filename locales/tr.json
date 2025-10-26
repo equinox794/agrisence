@@ -1,11 +1,11 @@
 {
   "sidebar": {
-    "dashboard": "Dashboard",
-    "stock": "Stok Yönetimi",
-    "customer": "Cari Hesap",
-    "recipe": "Reçete Sistemi",
-    "order": "Sipariş & Teklif",
-    "settings": "Ayarlar"
+    "stock": "Stock",
+    "recipe": "Recipe",
+    "production": "Production",
+    "movements": "Movements",
+    "reports": "Reports",
+    "settings": "Settings"
   },
   "stock": {
     "title": "Stok Yönetimi",

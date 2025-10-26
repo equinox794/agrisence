@@ -1,11 +1,11 @@
 {
   "sidebar": {
-    "dashboard": "Панель управления",
-    "stock": "Управление запасами",
-    "customer": "Учет клиентов",
-    "recipe": "Система рецептов",
-    "order": "Заказ и предложение",
-    "settings": "Настройки"
+    "stock": "Stock",
+    "recipe": "Recipe",
+    "production": "Production",
+    "movements": "Movements",
+    "reports": "Reports",
+    "settings": "Settings"
   },
   "stock": {
     "title": "Управление запасами",

@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from '@/lib/i18n';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Select } from '@/components/ui/Select';
 import { toast } from 'sonner';
 
 interface Stock {
@@ -66,6 +63,9 @@ export default function StokPage() {
   useEffect(() => {
     fetchStocks();
   }, [categoryFilter, search]);
+
+  // Toplam değer hesapla
+  const totalValue = stocks.reduce((sum, stock) => sum + (stock.quantity * stock.price), 0);
 
   // Form submit
   const handleSubmit = async (e: React.FormEvent) => {
@@ -144,117 +144,137 @@ export default function StokPage() {
     <div>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-[var(--primary-text)]">
-          {t('stock.title')}
-        </h1>
-        <Button
-          onClick={() => {
-            resetForm();
-            setShowDialog(true);
-          }}
-        >
-          <span className="material-symbols-outlined text-xl">add</span>
-          {t('stock.addNew')}
-        </Button>
+        <div className="flex items-center gap-6">
+          <h1 className="text-3xl font-bold text-[var(--primary-text)]">
+            Stok Yönetimi
+          </h1>
+          <div className="text-sm text-[var(--secondary-text)]">
+            <span>Stok Sayısı: </span>
+            <span className="font-semibold">{stocks.length}</span>
+          </div>
+          <div className="text-sm text-[var(--secondary-text)]">
+            <span>Toplam Değer: </span>
+            <span className="font-semibold">{totalValue.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <select className="px-4 py-2.5 rounded-md bg-[var(--card-background)] border border-[var(--border)] text-[var(--primary-text)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-green)]">
+            <option>Tümü</option>
+          </select>
+          <button
+            onClick={() => {
+              resetForm();
+              setShowDialog(true);
+            }}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
+          >
+            <span className="material-symbols-outlined text-lg">add</span>
+            <span>Yeni Stok</span>
+          </button>
+          <button className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors">
+            <span className="material-symbols-outlined text-lg">download</span>
+            <span>Stokları İndir</span>
+          </button>
+          <button className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-purple-600 text-white text-sm font-semibold hover:bg-purple-700 transition-colors">
+            <span className="material-symbols-outlined text-lg">cloud_upload</span>
+            <span>Stok Ekle</span>
+          </button>
+        </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex gap-4 mb-6">
-        <Input
-          placeholder={t('stock.search')}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="flex-1"
-        />
-        <Select
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-          options={[
-            { value: 'all', label: t('stock.filterAll') },
-            { value: 'hammadde', label: t('stock.filterHammadde') },
-            { value: 'ambalaj', label: t('stock.filterAmbalaj') },
-          ]}
-          className="w-48"
-        />
+      {/* Search */}
+      <div className="mb-6">
+        <div className="relative w-full max-w-md">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[var(--secondary-text)]">
+            search
+          </span>
+          <input
+            type="text"
+            placeholder="Stok adı veya kodu ile ara..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 rounded-md bg-[var(--card-background)] border border-[var(--border)] text-[var(--primary-text)] placeholder:text-[var(--secondary-text)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-green)]"
+          />
+        </div>
       </div>
 
       {/* Table */}
       <div className="rounded-lg border border-[var(--border)] bg-[var(--card-background)] overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-[var(--border-hover)]">
+          <thead className="bg-[#1c2127] border-b border-[var(--border)]">
             <tr>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
-                {t('stock.name')}
-              </th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
-                {t('stock.category')}
-              </th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
-                {t('stock.quantity')}
-              </th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
-                {t('stock.price')}
-              </th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
-                {t('stock.actions')}
-              </th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">ID</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">ÜRÜN ADI</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">MİKTAR</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">BİRİM</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">FİYAT</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">STOK TÜRÜ</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">KRİTİK STOK</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">TOPLAM TL</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">İŞLEMLER</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[var(--border)]">
             {loading ? (
               <tr>
-                <td colSpan={5} className="px-6 py-8 text-center text-[var(--secondary-text)]">
+                <td colSpan={9} className="px-6 py-8 text-center text-[var(--secondary-text)]">
                   {t('common.loading')}
                 </td>
               </tr>
             ) : stocks.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-6 py-8 text-center text-[var(--secondary-text)]">
+                <td colSpan={9} className="px-6 py-8 text-center text-[var(--secondary-text)]">
                   {t('stock.noData')}
                 </td>
               </tr>
             ) : (
-              stocks.map((stock) => {
+              stocks.map((stock, index) => {
                 const isLowStock = stock.quantity < stock.min_quantity;
+                const totalPrice = stock.quantity * stock.price;
+                
                 return (
                   <tr
                     key={stock.id}
                     className="hover:bg-[var(--card-hover)] transition-colors duration-200"
                   >
+                    <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
+                      {index + 1}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium text-[var(--primary-text)]">
                       {stock.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
-                      {stock.category === 'hammadde' ? t('stock.filterHammadde') : t('stock.filterAmbalaj')}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[var(--secondary-text)]">
-                          {stock.quantity} {stock.unit}
-                        </span>
-                        {isLowStock && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-[var(--error)] text-white">
-                            {t('stock.lowStock')}
-                          </span>
-                        )}
-                      </div>
+                      {stock.quantity}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
-                      {stock.price} {stock.currency}
+                      {stock.unit}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
+                      {stock.price}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
+                      {stock.category}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
+                      {stock.min_quantity}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
+                      {totalPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleEdit(stock)}
-                          className="text-[var(--primary-green)] hover:text-[var(--accent-green)] transition-colors"
-                          title={t('stock.edit')}
+                          className="text-[var(--secondary-text)] hover:text-[var(--primary-green)] transition-colors"
+                          title="Düzenle"
                         >
                           <span className="material-symbols-outlined text-xl">edit</span>
                         </button>
                         <button
                           onClick={() => handleDelete(stock.id)}
-                          className="text-[var(--error)] hover:text-red-600 transition-colors"
-                          title={t('stock.delete')}
+                          className="text-[var(--secondary-text)] hover:text-[var(--error)] transition-colors"
+                          title="Sil"
                         >
                           <span className="material-symbols-outlined text-xl">delete</span>
                         </button>
@@ -273,89 +293,122 @@ export default function StokPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-[var(--card-background)] border border-[var(--border)] rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <h2 className="text-2xl font-bold text-[var(--primary-text)] mb-6">
-              {editingStock ? t('stock.edit') : t('stock.addNew')}
+              {editingStock ? 'Stok Düzenle' : 'Yeni Stok Ekle'}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                label={t('stock.name')}
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-              />
-
-              <div className="grid grid-cols-2 gap-4">
-                <Select
-                  label={t('stock.category')}
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
-                  options={[
-                    { value: 'hammadde', label: t('stock.filterHammadde') },
-                    { value: 'ambalaj', label: t('stock.filterAmbalaj') },
-                  ]}
-                  required
-                />
-
-                <Select
-                  label={t('stock.unit')}
-                  value={formData.unit}
-                  onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-                  options={[
-                    { value: 'kg', label: 'kg' },
-                    { value: 'L', label: 'L (Litre)' },
-                    { value: 'adet', label: 'Adet' },
-                    { value: 'ton', label: 'Ton' },
-                    { value: 'm3', label: 'm³' },
-                  ]}
+              <div>
+                <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
+                  Stok Adı
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] placeholder:text-[var(--secondary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <Input
-                  label={t('stock.quantity')}
-                  type="number"
-                  step="0.01"
-                  value={formData.quantity}
-                  onChange={(e) => setFormData({ ...formData, quantity: parseFloat(e.target.value) })}
-                  required
-                />
+                <div>
+                  <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
+                    Kategori
+                  </label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
+                    className="w-full px-4 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+                    required
+                  >
+                    <option value="hammadde">Hammadde</option>
+                    <option value="ambalaj">Ambalaj</option>
+                  </select>
+                </div>
 
-                <Input
-                  label={t('stock.minQuantity')}
-                  type="number"
-                  step="0.01"
-                  value={formData.min_quantity}
-                  onChange={(e) => setFormData({ ...formData, min_quantity: parseFloat(e.target.value) })}
-                  required
-                />
+                <div>
+                  <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
+                    Birim
+                  </label>
+                  <select
+                    value={formData.unit}
+                    onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
+                    className="w-full px-4 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+                    required
+                  >
+                    <option value="kg">kg</option>
+                    <option value="L">L (Litre)</option>
+                    <option value="adet">Adet</option>
+                    <option value="ton">Ton</option>
+                    <option value="m3">m³</option>
+                  </select>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <Input
-                  label={t('stock.price')}
-                  type="number"
-                  step="0.01"
-                  value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-                  required
-                />
+                <div>
+                  <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
+                    Miktar
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.quantity}
+                    onChange={(e) => setFormData({ ...formData, quantity: parseFloat(e.target.value) })}
+                    className="w-full px-4 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+                    required
+                  />
+                </div>
 
-                <Select
-                  label="Para Birimi"
-                  value={formData.currency}
-                  onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                  options={[
-                    { value: 'TRY', label: 'TRY (₺)' },
-                    { value: 'USD', label: 'USD ($)' },
-                    { value: 'EUR', label: 'EUR (€)' },
-                  ]}
-                />
+                <div>
+                  <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
+                    Min. Stok
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.min_quantity}
+                    onChange={(e) => setFormData({ ...formData, min_quantity: parseFloat(e.target.value) })}
+                    className="w-full px-4 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
+                    Fiyat
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.price}
+                    onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                    className="w-full px-4 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
+                    Para Birimi
+                  </label>
+                  <select
+                    value={formData.currency}
+                    onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
+                    className="w-full px-4 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+                  >
+                    <option value="TRY">TRY (₺)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                  </select>
+                </div>
               </div>
 
               <div>
                 <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
-                  {t('stock.notes')}
+                  Notlar
                 </label>
                 <textarea
                   value={formData.notes}
@@ -366,20 +419,23 @@ export default function StokPage() {
               </div>
 
               <div className="flex justify-end gap-3 pt-4">
-                <Button
+                <button
                   type="button"
-                  variant="secondary"
                   onClick={() => {
                     setShowDialog(false);
                     resetForm();
                   }}
+                  className="px-5 py-2.5 rounded-md bg-[var(--card-background)] text-[var(--primary-text)] border border-[var(--border)] hover:bg-[var(--card-hover)] transition-colors text-sm font-semibold"
                 >
-                  {t('stock.cancel')}
-                </Button>
-                <Button type="submit">
-                  <span className="material-symbols-outlined text-[20px]">save</span>
-                  {t('stock.save')}
-                </Button>
+                  İptal
+                </button>
+                <button
+                  type="submit"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-[var(--primary-green)] text-white hover:bg-[var(--accent-green)] transition-colors text-sm font-semibold"
+                >
+                  <span className="material-symbols-outlined text-lg">save</span>
+                  <span>Kaydet</span>
+                </button>
               </div>
             </form>
           </div>
@@ -388,4 +444,3 @@ export default function StokPage() {
     </div>
   );
 }
-
