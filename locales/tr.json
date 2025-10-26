@@ -48,7 +48,9 @@
     "error": "Bir hata oluştu",
     "lowStock": "Düşük Stok",
     "inStock": "Stokta",
-    "noData": "Stok bulunamadı"
+    "noData": "Stok bulunamadı",
+    "sortByQuantity": "Miktara Göre Sırala",
+    "sortByTotal": "Toplam TL'ye Göre Sırala"
   },
   "dashboard": {
     "title": "Kontrol Paneli",

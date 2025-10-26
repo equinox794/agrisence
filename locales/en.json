@@ -48,7 +48,9 @@
     "error": "An error occurred",
     "lowStock": "Low Stock",
     "inStock": "In Stock",
-    "noData": "No stock found"
+    "noData": "No stock found",
+    "sortByQuantity": "Sort by Quantity",
+    "sortByTotal": "Sort by Total"
   },
   "dashboard": {
     "title": "Dashboard",

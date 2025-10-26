@@ -28,6 +28,7 @@ export default function StokPage() {
   const [showDialog, setShowDialog] = useState(false);
   const [editingStock, setEditingStock] = useState<Stock | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [sortBy, setSortBy] = useState<'quantity' | 'total' | null>(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -68,6 +69,25 @@ export default function StokPage() {
 
   // Toplam değer hesapla
   const totalValue = stocks.reduce((sum, stock) => sum + (stock.quantity * stock.price), 0);
+
+  // Sıralama fonksiyonu
+  const handleSort = () => {
+    if (!sortBy) {
+      // İlk tıklama: Miktara göre sırala
+      setSortBy('quantity');
+      const sorted = [...stocks].sort((a, b) => b.quantity - a.quantity);
+      setStocks(sorted);
+    } else if (sortBy === 'quantity') {
+      // İkinci tıklama: Toplam TL'ye göre sırala
+      setSortBy('total');
+      const sorted = [...stocks].sort((a, b) => (b.quantity * b.price) - (a.quantity * a.price));
+      setStocks(sorted);
+    } else {
+      // Üçüncü tıklama: Sıfırla (varsayılan sıralama)
+      setSortBy(null);
+      fetchStocks();
+    }
+  };
 
   // Excel İndirme
   const handleDownloadExcel = () => {
@@ -300,6 +320,34 @@ export default function StokPage() {
           >
             <span className="material-symbols-outlined text-base">upload_file</span>
             <span>{t('stock.uploadStock')}</span>
+          </button>
+          <button 
+            onClick={handleSort}
+            className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-white text-xs font-semibold transition-colors ${
+              sortBy === 'quantity' 
+                ? 'bg-orange-600 hover:bg-orange-700' 
+                : sortBy === 'total' 
+                ? 'bg-pink-600 hover:bg-pink-700' 
+                : 'bg-gray-600 hover:bg-gray-700'
+            }`}
+            title={
+              sortBy === 'quantity' 
+                ? t('stock.sortByTotal') 
+                : sortBy === 'total' 
+                ? 'Varsayılana Dön' 
+                : t('stock.sortByQuantity')
+            }
+          >
+            <span className="material-symbols-outlined text-base">
+              {sortBy ? 'arrow_downward' : 'sort'}
+            </span>
+            <span>
+              {sortBy === 'quantity' 
+                ? t('stock.sortByQuantity') 
+                : sortBy === 'total' 
+                ? t('stock.sortByTotal') 
+                : 'Sırala'}
+            </span>
           </button>
           <input
             ref={fileInputRef}
