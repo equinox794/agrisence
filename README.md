@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bioplant CRM
 
-## Getting Started
+Gübre fabrikası için geliştirilmiş modern CRM ve stok yönetim sistemi.
 
-First, run the development server:
+## 🚀 Özellikler
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### ✅ Aktif Modüller
+- **Dashboard**: Özet istatistikler ve hızlı erişim
+- **Stok Yönetimi**: Hammadde ve ambalaj takibi (CRUD işlemleri)
+- **Çoklu Dil**: Türkçe, İngilizce, Rusça
+
+### 🔜 Yakında
+- Cari Hesap Yönetimi
+- Reçete Sistemi
+- Sipariş & Teklif Yönetimi
+- Ayarlar Modülü
+
+## 🛠️ Teknoloji Stack
+
+- **Frontend**: Next.js 14 (App Router), React 18, TypeScript
+- **Styling**: Tailwind CSS
+- **Database**: Supabase (PostgreSQL)
+- **Deployment**: Vercel
+- **UI Components**: Custom components + Lucide Icons
+- **Forms**: React Hook Form
+- **Notifications**: Sonner (toast)
+
+## 📁 Proje Yapısı
+
+```
+frontend/
+├── app/
+│   ├── api/stocks/       # Stok API routes
+│   ├── stok/             # Stok yönetimi sayfası
+│   ├── layout.tsx        # Ana layout (sidebar)
+│   ├── page.tsx          # Dashboard
+│   └── globals.css       # Global stiller
+├── components/
+│   ├── Sidebar.tsx       # Sol menü
+│   └── ui/               # UI bileşenleri
+├── config/
+│   ├── theme.ts          # Tema renkleri
+│   ├── navigation.ts     # Menü yapısı
+│   └── app.ts            # Uygulama ayarları
+├── lib/
+│   ├── supabase.ts       # Supabase client
+│   └── i18n.tsx          # Çoklu dil sistemi
+└── locales/              # Çeviri dosyaları (tr, en, ru)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 Kurulum
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Bağımlılıkları Yükle
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. Environment Variables
+`.env.local` dosyası oluştur:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-## Learn More
+### 3. Supabase Veritabanı
+`supabase-migration.sql` dosyasını Supabase SQL Editor'de çalıştır.
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Development Server
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+http://localhost:3000 adresinde açılacak.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📦 Deployment (Vercel)
 
-## Deploy on Vercel
+1. GitHub repo'nuzu Vercel'e bağlayın
+2. Environment variables'ları ekleyin
+3. Deploy butonuna tıklayın
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Otomatik deploy: Her `git push` sonrası otomatik deploy olur.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎨 Tasarım Sistemi
+
+### Renkler
+- Background: `#0F0F0F`
+- Card Background: `#1A1A1A`
+- Primary Green: `#10B981`
+- Accent Green: `#34D399`
+- Border: `#2A2A2A`
+
+### Font
+- Inter (Primary)
+- Noto Sans (Fallback)
+- Material Symbols Outlined (İkonlar)
+
+## 🌐 Çoklu Dil
+
+Dil değiştirmek için sidebar'daki dil seçiciyi kullanın. Seçilen dil LocalStorage'da saklanır.
+
+Desteklenen diller:
+- 🇹🇷 Türkçe
+- 🇬🇧 English
+- 🇷🇺 Русский
+
+## 📝 Yeni Modül Ekleme
+
+1. `config/navigation.ts` dosyasına yeni menü ekle
+2. `locales/*.json` dosyalarına çevirileri ekle
+3. `app/[moduladi]/page.tsx` dosyasını oluştur
+4. API route'larını `app/api/[moduladi]/` klasörüne ekle
+
+## 📄 Lisans
+
+Bu proje Bioplant için özel olarak geliştirilmiştir.
+
+## 👨‍💻 Geliştirici
+
+Bioplant CRM v1.0.0

@@ -1,0 +1,55 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "stock": "Stock Management",
+    "customer": "Customer Account",
+    "recipe": "Recipe System",
+    "order": "Order & Quote",
+    "settings": "Settings"
+  },
+  "stock": {
+    "title": "Stock Management",
+    "addNew": "Add New Stock",
+    "search": "Search stock...",
+    "filterAll": "All",
+    "filterHammadde": "Raw Material",
+    "filterAmbalaj": "Packaging",
+    "name": "Stock Name",
+    "category": "Category",
+    "quantity": "Quantity",
+    "unit": "Unit",
+    "price": "Price",
+    "minQuantity": "Min. Stock",
+    "supplier": "Supplier",
+    "notes": "Notes",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "addSuccess": "Stock added successfully",
+    "updateSuccess": "Stock updated successfully",
+    "deleteSuccess": "Stock deleted successfully",
+    "error": "An error occurred",
+    "lowStock": "Low Stock",
+    "inStock": "In Stock",
+    "noData": "No stock found"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalStocks": "Total Stocks",
+    "lowStockItems": "Low Stock Items",
+    "totalCustomers": "Total Customers",
+    "monthlyOrders": "Monthly Orders"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "deleteConfirm": "Are you sure you want to delete?",
+    "yes": "Yes",
+    "no": "No"
+  }
+}
+

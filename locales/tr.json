@@ -1,0 +1,55 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "stock": "Stok Yönetimi",
+    "customer": "Cari Hesap",
+    "recipe": "Reçete Sistemi",
+    "order": "Sipariş & Teklif",
+    "settings": "Ayarlar"
+  },
+  "stock": {
+    "title": "Stok Yönetimi",
+    "addNew": "Yeni Stok Ekle",
+    "search": "Stok ara...",
+    "filterAll": "Tümü",
+    "filterHammadde": "Hammadde",
+    "filterAmbalaj": "Ambalaj",
+    "name": "Stok Adı",
+    "category": "Kategori",
+    "quantity": "Miktar",
+    "unit": "Birim",
+    "price": "Fiyat",
+    "minQuantity": "Min. Stok",
+    "supplier": "Tedarikçi",
+    "notes": "Notlar",
+    "actions": "İşlemler",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "addSuccess": "Stok başarıyla eklendi",
+    "updateSuccess": "Stok başarıyla güncellendi",
+    "deleteSuccess": "Stok başarıyla silindi",
+    "error": "Bir hata oluştu",
+    "lowStock": "Düşük Stok",
+    "inStock": "Stokta",
+    "noData": "Stok bulunamadı"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalStocks": "Toplam Stok",
+    "lowStockItems": "Düşük Stok Ürünleri",
+    "totalCustomers": "Toplam Müşteri",
+    "monthlyOrders": "Aylık Sipariş"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı",
+    "confirm": "Onay",
+    "deleteConfirm": "Silmek istediğinize emin misiniz?",
+    "yes": "Evet",
+    "no": "Hayır"
+  }
+}
+
