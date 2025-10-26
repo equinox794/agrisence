@@ -13,17 +13,17 @@ export default function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-[var(--card-background)] border-r border-[var(--border)] flex flex-col">
       {/* Logo */}
-      <div className="h-16 flex items-center gap-3 px-6 border-b border-[var(--border)]">
+      <div className="h-14 flex items-center gap-3 px-5 border-b border-[var(--border)]">
         <div 
-          className="text-[var(--primary-green)] w-8 h-8"
+          className="text-[var(--primary-green)] w-7 h-7"
           dangerouslySetInnerHTML={{ __html: appConfig.logo.svg }}
         />
-        <h2 className="text-lg font-bold text-white">{appConfig.name}</h2>
+        <h2 className="text-base font-bold text-white">{appConfig.name}</h2>
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 px-4 py-4 overflow-y-auto">
-        <ul className="space-y-1">
+      <nav className="flex-1 px-3 py-3 overflow-y-auto">
+        <ul className="space-y-0.5">
           {navigationItems
             .sort((a, b) => a.order - b.order)
             .map((item) => {
@@ -36,25 +36,25 @@ export default function Sidebar() {
                     <Link
                       href={item.route}
                       className={`
-                        flex items-center gap-3 px-4 py-2.5 rounded-md transition-all duration-200 text-sm
+                        flex items-center gap-2.5 px-3 py-2 rounded-md transition-all duration-200 text-sm
                         ${
                           isActive
-                            ? 'bg-[var(--primary-green)] text-white font-semibold'
+                            ? 'bg-[var(--primary-green)] text-white font-medium'
                             : 'text-[var(--secondary-text)] hover:bg-[var(--card-hover)] hover:text-[var(--primary-text)]'
                         }
                       `}
                     >
-                      <span className="material-symbols-outlined text-xl">
+                      <span className="material-symbols-outlined text-lg">
                         {item.icon}
                       </span>
                       <span>{t(`sidebar.${item.id}`)}</span>
                     </Link>
                   ) : (
                     <div
-                      className="flex items-center gap-3 px-4 py-2.5 rounded-md text-[var(--secondary-text)] opacity-50 cursor-not-allowed text-sm"
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-md text-[var(--secondary-text)] opacity-50 cursor-not-allowed text-sm"
                       title="Yakında aktif olacak"
                     >
-                      <span className="material-symbols-outlined text-xl">
+                      <span className="material-symbols-outlined text-lg">
                         {item.icon}
                       </span>
                       <span>{t(`sidebar.${item.id}`)}</span>
@@ -66,27 +66,19 @@ export default function Sidebar() {
         </ul>
       </nav>
 
-      {/* Language Selector */}
+      {/* Language Selector - Dropdown */}
       <div className="px-4 py-4 border-t border-[var(--border)]">
-        <div className="flex items-center gap-2">
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value as any)}
+          className="w-full px-3 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-green)] cursor-pointer"
+        >
           {appConfig.languages.map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => setLanguage(lang.code as any)}
-              className={`
-                flex-1 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200
-                ${
-                  language === lang.code
-                    ? 'bg-[var(--primary-green)] text-white'
-                    : 'bg-[var(--background)] text-[var(--secondary-text)] hover:bg-[var(--card-hover)]'
-                }
-              `}
-              title={lang.name}
-            >
-              {lang.flag} {lang.code.toUpperCase()}
-            </button>
+            <option key={lang.code} value={lang.code}>
+              {lang.flag} {lang.name}
+            </option>
           ))}
-        </div>
+        </select>
       </div>
 
       {/* Version */}
