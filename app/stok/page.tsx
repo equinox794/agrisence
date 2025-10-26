@@ -339,7 +339,6 @@ export default function StokPage() {
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
                     className="w-full px-3 py-2 text-sm rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
-                    required
                   >
                     <option value="hammadde">{t('stock.filterHammadde')}</option>
                     <option value="ambalaj">{t('stock.filterAmbalaj')}</option>
@@ -354,7 +353,6 @@ export default function StokPage() {
                     value={formData.unit}
                     onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
                     className="w-full px-3 py-2 text-sm rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
-                    required
                   >
                     <option value="kg">kg</option>
                     <option value="L">L (Litre)</option>
@@ -374,9 +372,8 @@ export default function StokPage() {
                     type="number"
                     step="0.01"
                     value={formData.quantity}
-                    onChange={(e) => setFormData({ ...formData, quantity: parseFloat(e.target.value) })}
+                    onChange={(e) => setFormData({ ...formData, quantity: parseFloat(e.target.value) || 0 })}
                     className="w-full px-3 py-2 text-sm rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
-                    required
                   />
                 </div>
 
@@ -388,9 +385,8 @@ export default function StokPage() {
                     type="number"
                     step="0.01"
                     value={formData.min_quantity}
-                    onChange={(e) => setFormData({ ...formData, min_quantity: parseFloat(e.target.value) })}
+                    onChange={(e) => setFormData({ ...formData, min_quantity: parseFloat(e.target.value) || 0 })}
                     className="w-full px-3 py-2 text-sm rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
-                    required
                   />
                 </div>
               </div>
@@ -404,9 +400,8 @@ export default function StokPage() {
                     type="number"
                     step="0.01"
                     value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                    onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
                     className="w-full px-3 py-2 text-sm rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
-                    required
                   />
                 </div>
 

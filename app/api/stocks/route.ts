@@ -43,10 +43,10 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // Validasyon
-    if (!body.name || !body.category || !body.unit || !body.price) {
+    // Validasyon - Sadece ürün adı zorunlu
+    if (!body.name) {
       return NextResponse.json(
-        { error: 'Gerekli alanlar eksik' },
+        { error: 'Ürün adı gereklidir' },
         { status: 400 }
       );
     }
@@ -56,11 +56,11 @@ export async function POST(request: Request) {
       .insert([
         {
           name: body.name,
-          category: body.category,
-          unit: body.unit,
+          category: body.category || 'hammadde',
+          unit: body.unit || 'kg',
           quantity: body.quantity || 0,
           min_quantity: body.min_quantity || 0,
-          price: body.price,
+          price: body.price || 0,
           currency: body.currency || 'TRY',
           supplier_id: body.supplier_id || null,
           notes: body.notes || null,
