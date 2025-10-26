@@ -143,25 +143,30 @@ export default function StokPage() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-5">
+      <div className="mb-5">
+        {/* Title and Stats */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="material-symbols-outlined text-[var(--primary-green)] text-2xl">warehouse</span>
             <h1 className="text-xl font-bold text-[var(--primary-text)]">
               {t('stock.title')}
             </h1>
           </div>
-          <div className="text-xs text-[var(--secondary-text)]">
-            <span>{t('stock.stockCount')}: </span>
-            <span className="font-semibold">{stocks.length}</span>
-          </div>
-          <div className="text-xs text-[var(--secondary-text)]">
-            <span>{t('stock.totalValue')}: </span>
-            <span className="font-semibold">{totalValue.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
+          
+          <div className="flex gap-4 text-xs text-[var(--secondary-text)]">
+            <div>
+              <span>{t('stock.stockCount')}: </span>
+              <span className="font-semibold">{stocks.length}</span>
+            </div>
+            <div>
+              <span>{t('stock.totalValue')}: </span>
+              <span className="font-semibold">{totalValue.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-2">
           <select className="px-3 py-2 rounded-md bg-[var(--card-background)] border border-[var(--border)] text-[var(--primary-text)] text-xs focus:outline-none focus:ring-2 focus:ring-[var(--primary-green)]">
             <option>{t('stock.filterAll')}</option>
           </select>
@@ -170,16 +175,16 @@ export default function StokPage() {
               resetForm();
               setShowDialog(true);
             }}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-md bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
+            className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-md bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
           >
             <span className="material-symbols-outlined text-base">add_box</span>
             <span>{t('stock.newStock')}</span>
           </button>
-          <button className="flex items-center gap-1.5 px-3 py-2 rounded-md bg-green-600 text-white text-xs font-semibold hover:bg-green-700 transition-colors">
+          <button className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-md bg-green-600 text-white text-xs font-semibold hover:bg-green-700 transition-colors">
             <span className="material-symbols-outlined text-base">file_download</span>
             <span>{t('stock.downloadStocks')}</span>
           </button>
-          <button className="flex items-center gap-1.5 px-3 py-2 rounded-md bg-purple-600 text-white text-xs font-semibold hover:bg-purple-700 transition-colors">
+          <button className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-md bg-purple-600 text-white text-xs font-semibold hover:bg-purple-700 transition-colors">
             <span className="material-symbols-outlined text-base">upload_file</span>
             <span>{t('stock.uploadStock')}</span>
           </button>
@@ -188,7 +193,7 @@ export default function StokPage() {
 
       {/* Search */}
       <div className="mb-5">
-        <div className="relative w-full max-w-md">
+        <div className="relative w-full">
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[var(--secondary-text)] text-lg">
             search
           </span>
@@ -203,8 +208,8 @@ export default function StokPage() {
       </div>
 
       {/* Table */}
-      <div className="rounded-lg border border-[var(--border)] bg-[var(--card-background)] overflow-hidden">
-        <table className="w-full text-xs">
+      <div className="rounded-lg border border-[var(--border)] bg-[var(--card-background)] overflow-hidden overflow-x-auto">
+        <table className="w-full text-xs min-w-[800px]">
           <thead className="bg-[#1c2127] border-b border-[var(--border)]">
             <tr>
               <th className="px-4 py-3 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.id')}</th>

@@ -5,13 +5,38 @@ import { usePathname } from 'next/navigation';
 import { navigationItems } from '@/config/navigation';
 import { appConfig } from '@/config/app';
 import { useTranslation } from '@/lib/i18n';
+import { useState } from 'react';
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { t, language, setLanguage } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-[var(--card-background)] border-r border-[var(--border)] flex flex-col">
+    <>
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-[var(--card-background)] border border-[var(--border)] text-[var(--primary-text)]"
+      >
+        <span className="material-symbols-outlined text-2xl">
+          {isOpen ? 'close' : 'menu'}
+        </span>
+      </button>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/50 z-30"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed left-0 top-0 h-screen w-64 bg-[var(--card-background)] border-r border-[var(--border)] flex flex-col z-40 transition-transform duration-300
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
       {/* Logo */}
       <div className="h-14 flex items-center gap-3 px-5 border-b border-[var(--border)]">
         <div 
@@ -35,6 +60,7 @@ export default function Sidebar() {
                   {isEnabled ? (
                     <Link
                       href={item.route}
+                      onClick={() => setIsOpen(false)}
                       className={`
                         flex items-center gap-2.5 px-3 py-2 rounded-md transition-all duration-200 text-sm
                         ${

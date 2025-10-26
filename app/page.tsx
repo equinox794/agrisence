@@ -10,13 +10,13 @@ export default function Dashboard() {
     <div>
       <div className="flex items-center gap-2.5 mb-5">
         <span className="material-symbols-outlined text-[var(--primary-green)] text-2xl">dashboard</span>
-        <h1 className="text-xl font-bold text-[var(--primary-text)]">
+        <h1 className="text-xl md:text-2xl font-bold text-[var(--primary-text)]">
           {t('dashboard.title')}
         </h1>
       </div>
 
       {/* Özet Kartlar */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="flex items-center gap-3 rounded-lg p-4 bg-[var(--card-background)] border border-[var(--border)] hover:border-[var(--primary-green)] transition-colors duration-300">
           <div className="w-10 h-10 rounded-lg bg-[var(--primary-green)]/10 flex items-center justify-center">
             <span className="material-symbols-outlined text-[var(--primary-green)] text-xl">inventory_2</span>
