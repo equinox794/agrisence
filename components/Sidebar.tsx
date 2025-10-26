@@ -15,15 +15,15 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="h-16 flex items-center gap-3 px-6 border-b border-[var(--border)]">
         <div 
-          className="text-[var(--primary-green)]"
+          className="text-[var(--primary-green)] w-8 h-8"
           dangerouslySetInnerHTML={{ __html: appConfig.logo.svg }}
         />
-        <h2 className="text-xl font-bold text-white">{appConfig.name}</h2>
+        <h2 className="text-lg font-bold text-white">{appConfig.name}</h2>
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 px-4 py-6 overflow-y-auto">
-        <ul className="space-y-2">
+      <nav className="flex-1 px-4 py-4 overflow-y-auto">
+        <ul className="space-y-1">
           {navigationItems
             .sort((a, b) => a.order - b.order)
             .map((item) => {
@@ -36,28 +36,28 @@ export default function Sidebar() {
                     <Link
                       href={item.route}
                       className={`
-                        flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
+                        flex items-center gap-3 px-4 py-2.5 rounded-md transition-all duration-200 text-sm
                         ${
                           isActive
-                            ? 'bg-[var(--primary-green)] text-white'
+                            ? 'bg-[var(--primary-green)] text-white font-semibold'
                             : 'text-[var(--secondary-text)] hover:bg-[var(--card-hover)] hover:text-[var(--primary-text)]'
                         }
                       `}
                     >
-                      <span className="material-symbols-outlined text-[20px]">
+                      <span className="material-symbols-outlined text-xl">
                         {item.icon}
                       </span>
-                      <span className="text-sm font-medium">{t(`sidebar.${item.id}`)}</span>
+                      <span>{t(`sidebar.${item.id}`)}</span>
                     </Link>
                   ) : (
                     <div
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--secondary-text)] opacity-50 cursor-not-allowed"
+                      className="flex items-center gap-3 px-4 py-2.5 rounded-md text-[var(--secondary-text)] opacity-50 cursor-not-allowed text-sm"
                       title="Yakında aktif olacak"
                     >
-                      <span className="material-symbols-outlined text-[20px]">
+                      <span className="material-symbols-outlined text-xl">
                         {item.icon}
                       </span>
-                      <span className="text-sm font-medium">{t(`sidebar.${item.id}`)}</span>
+                      <span>{t(`sidebar.${item.id}`)}</span>
                     </div>
                   )}
                 </li>

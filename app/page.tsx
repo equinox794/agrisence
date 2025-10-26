@@ -7,7 +7,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold mb-6 text-[var(--primary-text)]">
+      <h1 className="text-3xl font-bold mb-6 text-[var(--primary-text)]">
         {t('dashboard.title')}
       </h1>
 

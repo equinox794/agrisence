@@ -144,7 +144,7 @@ export default function StokPage() {
     <div>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-4xl font-bold text-[var(--primary-text)]">
+        <h1 className="text-3xl font-bold text-[var(--primary-text)]">
           {t('stock.title')}
         </h1>
         <Button
@@ -153,7 +153,7 @@ export default function StokPage() {
             setShowDialog(true);
           }}
         >
-          <span className="material-symbols-outlined text-[20px]">add</span>
+          <span className="material-symbols-outlined text-xl">add</span>
           {t('stock.addNew')}
         </Button>
       </div>
@@ -180,22 +180,22 @@ export default function StokPage() {
 
       {/* Table */}
       <div className="rounded-lg border border-[var(--border)] bg-[var(--card-background)] overflow-hidden">
-        <table className="w-full">
+        <table className="w-full text-sm">
           <thead className="bg-[var(--border-hover)]">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--secondary-text)] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
                 {t('stock.name')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--secondary-text)] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
                 {t('stock.category')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--secondary-text)] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
                 {t('stock.quantity')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--secondary-text)] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
                 {t('stock.price')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--secondary-text)] uppercase tracking-wider">
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)]">
                 {t('stock.actions')}
               </th>
             </tr>
@@ -221,42 +221,42 @@ export default function StokPage() {
                     key={stock.id}
                     className="hover:bg-[var(--card-hover)] transition-colors duration-200"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--primary-text)]">
+                    <td className="px-6 py-4 whitespace-nowrap font-medium text-[var(--primary-text)]">
                       {stock.name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--secondary-text)]">
+                    <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
                       {stock.category === 'hammadde' ? t('stock.filterHammadde') : t('stock.filterAmbalaj')}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
-                        <span className="text-[var(--primary-text)]">
+                        <span className="text-[var(--secondary-text)]">
                           {stock.quantity} {stock.unit}
                         </span>
                         {isLowStock && (
-                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[var(--error)]/10 text-[var(--error)]">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-[var(--error)] text-white">
                             {t('stock.lowStock')}
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--primary-text)]">
+                    <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
                       {stock.price} {stock.currency}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleEdit(stock)}
                           className="text-[var(--primary-green)] hover:text-[var(--accent-green)] transition-colors"
                           title={t('stock.edit')}
                         >
-                          <span className="material-symbols-outlined text-[20px]">edit</span>
+                          <span className="material-symbols-outlined text-xl">edit</span>
                         </button>
                         <button
                           onClick={() => handleDelete(stock.id)}
                           className="text-[var(--error)] hover:text-red-600 transition-colors"
                           title={t('stock.delete')}
                         >
-                          <span className="material-symbols-outlined text-[20px]">delete</span>
+                          <span className="material-symbols-outlined text-xl">delete</span>
                         </button>
                       </div>
                     </td>
