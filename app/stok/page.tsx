@@ -145,40 +145,43 @@ export default function StokPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-6">
-          <h1 className="text-3xl font-bold text-[var(--primary-text)]">
-            Stok Yönetimi
-          </h1>
+          <div className="flex items-center gap-3">
+            <span className="material-symbols-outlined text-[var(--primary-green)] text-4xl">warehouse</span>
+            <h1 className="text-3xl font-bold text-[var(--primary-text)]">
+              {t('stock.title')}
+            </h1>
+          </div>
           <div className="text-sm text-[var(--secondary-text)]">
-            <span>Stok Sayısı: </span>
+            <span>{t('stock.stockCount')}: </span>
             <span className="font-semibold">{stocks.length}</span>
           </div>
           <div className="text-sm text-[var(--secondary-text)]">
-            <span>Toplam Değer: </span>
+            <span>{t('stock.totalValue')}: </span>
             <span className="font-semibold">{totalValue.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL</span>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <select className="px-4 py-2.5 rounded-md bg-[var(--card-background)] border border-[var(--border)] text-[var(--primary-text)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-green)]">
-            <option>Tümü</option>
+            <option>{t('stock.filterAll')}</option>
           </select>
           <button
             onClick={() => {
               resetForm();
               setShowDialog(true);
             }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
           >
-            <span className="material-symbols-outlined text-lg">add</span>
-            <span>Yeni Stok</span>
+            <span className="material-symbols-outlined text-lg">add_box</span>
+            <span>{t('stock.newStock')}</span>
           </button>
-          <button className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors">
-            <span className="material-symbols-outlined text-lg">download</span>
-            <span>Stokları İndir</span>
+          <button className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20">
+            <span className="material-symbols-outlined text-lg">file_download</span>
+            <span>{t('stock.downloadStocks')}</span>
           </button>
-          <button className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-purple-600 text-white text-sm font-semibold hover:bg-purple-700 transition-colors">
-            <span className="material-symbols-outlined text-lg">cloud_upload</span>
-            <span>Stok Ekle</span>
+          <button className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-purple-600 text-white text-sm font-semibold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-600/20">
+            <span className="material-symbols-outlined text-lg">upload_file</span>
+            <span>{t('stock.uploadStock')}</span>
           </button>
         </div>
       </div>
@@ -191,7 +194,7 @@ export default function StokPage() {
           </span>
           <input
             type="text"
-            placeholder="Stok adı veya kodu ile ara..."
+            placeholder={t('stock.search')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-md bg-[var(--card-background)] border border-[var(--border)] text-[var(--primary-text)] placeholder:text-[var(--secondary-text)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-green)]"
@@ -204,15 +207,15 @@ export default function StokPage() {
         <table className="w-full text-sm">
           <thead className="bg-[#1c2127] border-b border-[var(--border)]">
             <tr>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">ID</th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">ÜRÜN ADI</th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">MİKTAR</th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">BİRİM</th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">FİYAT</th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">STOK TÜRÜ</th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">KRİTİK STOK</th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">TOPLAM TL</th>
-              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">İŞLEMLER</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.id')}</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.productName')}</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.amount')}</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.unitCol')}</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.priceCol')}</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.stockType')}</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.criticalStock')}</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.totalTL')}</th>
+              <th className="px-6 py-4 text-left font-semibold text-[var(--primary-text)] uppercase text-xs tracking-wider">{t('stock.actions')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[var(--border)]">
@@ -253,11 +256,28 @@ export default function StokPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
                       {stock.price}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
-                      {stock.category}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
+                        stock.category === 'hammadde' 
+                          ? 'bg-blue-500/10 text-blue-400' 
+                          : 'bg-purple-500/10 text-purple-400'
+                      }`}>
+                        <span className="material-symbols-outlined text-sm">
+                          {stock.category === 'hammadde' ? 'science' : 'package'}
+                        </span>
+                        {stock.category === 'hammadde' ? t('stock.filterHammadde') : t('stock.filterAmbalaj')}
+                      </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
-                      {stock.min_quantity}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[var(--secondary-text)]">{stock.min_quantity}</span>
+                        {isLowStock && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-[var(--error)] text-white">
+                            <span className="material-symbols-outlined text-xs">error</span>
+                            {t('stock.lowStock')}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-[var(--secondary-text)]">
                       {totalPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
@@ -266,17 +286,17 @@ export default function StokPage() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleEdit(stock)}
-                          className="text-[var(--secondary-text)] hover:text-[var(--primary-green)] transition-colors"
-                          title="Düzenle"
+                          className="p-1.5 rounded-md text-[var(--primary-green)] hover:bg-[var(--primary-green)]/10 transition-colors"
+                          title={t('stock.edit')}
                         >
-                          <span className="material-symbols-outlined text-xl">edit</span>
+                          <span className="material-symbols-outlined text-xl">edit_square</span>
                         </button>
                         <button
                           onClick={() => handleDelete(stock.id)}
-                          className="text-[var(--secondary-text)] hover:text-[var(--error)] transition-colors"
-                          title="Sil"
+                          className="p-1.5 rounded-md text-[var(--error)] hover:bg-[var(--error)]/10 transition-colors"
+                          title={t('stock.delete')}
                         >
-                          <span className="material-symbols-outlined text-xl">delete</span>
+                          <span className="material-symbols-outlined text-xl">delete_forever</span>
                         </button>
                       </div>
                     </td>
@@ -293,13 +313,13 @@ export default function StokPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-[var(--card-background)] border border-[var(--border)] rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <h2 className="text-2xl font-bold text-[var(--primary-text)] mb-6">
-              {editingStock ? 'Stok Düzenle' : 'Yeni Stok Ekle'}
+              {editingStock ? t('stock.editStock') : t('stock.addNew')}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
-                  Stok Adı
+                  {t('stock.name')}
                 </label>
                 <input
                   type="text"
@@ -313,7 +333,7 @@ export default function StokPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
-                    Kategori
+                    {t('stock.category')}
                   </label>
                   <select
                     value={formData.category}
@@ -321,14 +341,14 @@ export default function StokPage() {
                     className="w-full px-4 py-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-[var(--primary-text)] focus:outline-none focus:border-[var(--primary-green)] transition-colors"
                     required
                   >
-                    <option value="hammadde">Hammadde</option>
-                    <option value="ambalaj">Ambalaj</option>
+                    <option value="hammadde">{t('stock.filterHammadde')}</option>
+                    <option value="ambalaj">{t('stock.filterAmbalaj')}</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
-                    Birim
+                    {t('stock.unit')}
                   </label>
                   <select
                     value={formData.unit}
@@ -348,7 +368,7 @@ export default function StokPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
-                    Miktar
+                    {t('stock.quantity')}
                   </label>
                   <input
                     type="number"
@@ -362,7 +382,7 @@ export default function StokPage() {
 
                 <div>
                   <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
-                    Min. Stok
+                    {t('stock.minQuantity')}
                   </label>
                   <input
                     type="number"
@@ -378,7 +398,7 @@ export default function StokPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
-                    Fiyat
+                    {t('stock.price')}
                   </label>
                   <input
                     type="number"
@@ -392,7 +412,7 @@ export default function StokPage() {
 
                 <div>
                   <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
-                    Para Birimi
+                    {t('stock.currency')}
                   </label>
                   <select
                     value={formData.currency}
@@ -408,7 +428,7 @@ export default function StokPage() {
 
               <div>
                 <label className="text-sm font-medium text-[var(--primary-text)] mb-1.5 block">
-                  Notlar
+                  {t('stock.notes')}
                 </label>
                 <textarea
                   value={formData.notes}
@@ -427,14 +447,14 @@ export default function StokPage() {
                   }}
                   className="px-5 py-2.5 rounded-md bg-[var(--card-background)] text-[var(--primary-text)] border border-[var(--border)] hover:bg-[var(--card-hover)] transition-colors text-sm font-semibold"
                 >
-                  İptal
+                  {t('stock.cancel')}
                 </button>
                 <button
                   type="submit"
                   className="flex items-center gap-2 px-5 py-2.5 rounded-md bg-[var(--primary-green)] text-white hover:bg-[var(--accent-green)] transition-colors text-sm font-semibold"
                 >
                   <span className="material-symbols-outlined text-lg">save</span>
-                  <span>Kaydet</span>
+                  <span>{t('stock.save')}</span>
                 </button>
               </div>
             </form>
