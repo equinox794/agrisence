@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from '@/lib/i18n';
 import { toast } from 'sonner';
+import * as XLSX from 'xlsx';
 
 interface Stock {
   id: string;
@@ -26,6 +27,7 @@ export default function StokPage() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showDialog, setShowDialog] = useState(false);
   const [editingStock, setEditingStock] = useState<Stock | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -66,6 +68,111 @@ export default function StokPage() {
 
   // Toplam değer hesapla
   const totalValue = stocks.reduce((sum, stock) => sum + (stock.quantity * stock.price), 0);
+
+  // Excel İndirme
+  const handleDownloadExcel = () => {
+    try {
+      // Stokları Excel formatına çevir
+      const excelData = stocks.map((stock, index) => ({
+        'Sıra': index + 1,
+        'Ürün Adı': stock.name,
+        'Kategori': stock.category === 'hammadde' ? 'Hammadde' : 'Ambalaj',
+        'Miktar': stock.quantity,
+        'Birim': stock.unit,
+        'Fiyat': stock.price,
+        'Para Birimi': stock.currency,
+        'Min. Stok': stock.min_quantity,
+        'Notlar': stock.notes || ''
+      }));
+
+      // Workbook oluştur
+      const worksheet = XLSX.utils.json_to_sheet(excelData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Stoklar');
+
+      // Sütun genişliklerini ayarla
+      const columnWidths = [
+        { wch: 8 },  // Sıra
+        { wch: 30 }, // Ürün Adı
+        { wch: 12 }, // Kategori
+        { wch: 10 }, // Miktar
+        { wch: 8 },  // Birim
+        { wch: 10 }, // Fiyat
+        { wch: 12 }, // Para Birimi
+        { wch: 10 }, // Min. Stok
+        { wch: 30 }  // Notlar
+      ];
+      worksheet['!cols'] = columnWidths;
+
+      // Dosyayı indir
+      const fileName = `stoklar_${new Date().toISOString().split('T')[0]}.xlsx`;
+      XLSX.writeFile(workbook, fileName);
+      
+      toast.success('Stoklar Excel dosyasına aktarıldı!');
+    } catch (error) {
+      console.error('Excel indirme hatası:', error);
+      toast.error('Excel dosyası indirilemedi');
+    }
+  };
+
+  // Excel Yükleme
+  const handleUploadExcel = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setLoading(true);
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data);
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+      // Excel verilerini API formatına çevir
+      const newStocks = jsonData.map((row: any) => ({
+        name: row['Ürün Adı'] || row['Urun Adi'] || '',
+        category: (row['Kategori'] === 'Ambalaj' || row['Kategori'] === 'ambalaj') ? 'ambalaj' : 'hammadde',
+        quantity: parseFloat(row['Miktar']) || 0,
+        unit: row['Birim'] || 'kg',
+        price: parseFloat(row['Fiyat']) || 0,
+        currency: row['Para Birimi'] || row['Para Birimi'] || 'TRY',
+        min_quantity: parseFloat(row['Min. Stok'] || row['Min Stok']) || 0,
+        notes: row['Notlar'] || ''
+      }));
+
+      // Önce tüm stokları sil
+      const deleteResponse = await fetch('/api/stocks/bulk-delete', {
+        method: 'DELETE',
+      });
+
+      if (!deleteResponse.ok) {
+        throw new Error('Eski stoklar silinemedi');
+      }
+
+      // Yeni stokları ekle
+      const createResponse = await fetch('/api/stocks/bulk-create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stocks: newStocks }),
+      });
+
+      if (!createResponse.ok) {
+        throw new Error('Yeni stoklar eklenemedi');
+      }
+
+      toast.success(`${newStocks.length} ürün başarıyla yüklendi!`);
+      fetchStocks();
+      
+      // Input'u sıfırla
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    } catch (error) {
+      console.error('Excel yükleme hatası:', error);
+      toast.error('Excel dosyası yüklenemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Form submit
   const handleSubmit = async (e: React.FormEvent) => {
@@ -180,14 +287,27 @@ export default function StokPage() {
             <span className="material-symbols-outlined text-base">add_box</span>
             <span>{t('stock.newStock')}</span>
           </button>
-          <button className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-md bg-green-600 text-white text-xs font-semibold hover:bg-green-700 transition-colors">
+          <button 
+            onClick={handleDownloadExcel}
+            className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-md bg-green-600 text-white text-xs font-semibold hover:bg-green-700 transition-colors"
+          >
             <span className="material-symbols-outlined text-base">file_download</span>
             <span>{t('stock.downloadStocks')}</span>
           </button>
-          <button className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-md bg-purple-600 text-white text-xs font-semibold hover:bg-purple-700 transition-colors">
+          <button 
+            onClick={() => fileInputRef.current?.click()}
+            className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-md bg-purple-600 text-white text-xs font-semibold hover:bg-purple-700 transition-colors"
+          >
             <span className="material-symbols-outlined text-base">upload_file</span>
             <span>{t('stock.uploadStock')}</span>
           </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".xlsx,.xls"
+            onChange={handleUploadExcel}
+            className="hidden"
+          />
         </div>
       </div>
 
